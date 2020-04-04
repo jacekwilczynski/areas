@@ -22,6 +22,7 @@ function jsRule() {
       loader: 'babel-loader',
       options: {
         presets: [['@babel/preset-env', { useBuiltIns: 'usage', corejs: 3 }]],
+        plugins: ['@babel/plugin-proposal-class-properties'],
         sourceMap: devMode
       }
     }

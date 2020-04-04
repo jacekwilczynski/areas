@@ -1,18 +1,22 @@
+import Circle from './Circle';
+import Rectangle from './Rectangle';
+import Square from './Square';
+
 const buttons = Array.from(document.querySelectorAll('[data-add-shape]'));
 const tableBody = document.getElementById('table-body');
-window.shapes = [];
+const shapes = [];
 
 buttons.forEach((button) => {
   button.addEventListener('click', (e) => {
     const shapeType = e.target.dataset.addShape;
-    const shape = { type: shapeType };
+    let shape;
 
     if (shapeType == 'square') {
-      const side = prompt('Enter square side size:');
+      const side = prompt('Enter square side:');
       if (!side) {
         return;
       }
-      shape.side = side;
+      shape = new Square(side);
     }
 
     if (shapeType == 'rectangle') {
@@ -24,8 +28,7 @@ buttons.forEach((button) => {
       if (!height) {
         return;
       }
-      shape.width = width;
-      shape.height = height;
+      shape = new Rectangle(width, height);
     }
 
     if (shapeType == 'circle') {
@@ -33,15 +36,21 @@ buttons.forEach((button) => {
       if (!radius) {
         return;
       }
-      shape.radius = radius;
+      shape = new Circle(radius);
     }
 
     shapes.push(shape);
-    tableBody.innerHTML += `
-    <tr>
-      <td>${shape.type}</td>
-      <td></td>
-    </tr>
-    `;
+
+    tableBody.innerHTML = renderTableBody(shapes);
   });
 });
+
+function renderTableBody(shapes) {
+  return shapes.map(shape => {
+    const propertiesList = Object.keys(shape)
+      .map(key => `<li>${key}: ${shape[key]}</li>`)
+      .join('');
+
+    return `<tr><td><ul>${propertiesList}</ul></td><td>${shape.calcArea()}</td></tr>`;
+  }).join('');
+}
