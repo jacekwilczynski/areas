@@ -1,5 +1,5 @@
 const buttons = Array.from(document.querySelectorAll('[data-add-shape]'));
-
+const tableBody = document.getElementById('table-body');
 window.shapes = [];
 
 buttons.forEach((button) => {
@@ -37,5 +37,11 @@ buttons.forEach((button) => {
     }
 
     shapes.push(shape);
+    tableBody.innerHTML += `
+    <tr>
+      <td>${shape.type}</td>
+      <td></td>
+    </tr>
+    `;
   });
 });
